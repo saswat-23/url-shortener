@@ -2,6 +2,7 @@ package com.saswat23.shorturl.service;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,24 +18,25 @@ public class UrlShortenerService {
 	@Autowired
 	UrlShortenerRepo repo;
 	
-	String dummyShortUrl = "";
-//	String dummyLongUrl1 = "https://www.amazon.in/pTron-compatible-Smartphones-Gold-plated-Tangle-free/dp/B09KS55PRR/";
-//	String dummyLongUrl2 = "https://www.javatpoint.com/spring-boot-starter-data-jpa";
-//	String dummyLongUrl3 = "https://www.flipkart.com/noise-vision-3-1-96-amoled-display-thin-bezel-metallic-build-smartwatch/p/itm86cb485141549";
+	String shortUrl = "";
+	final String STARTS_WITH_HTTPS = "https://";
+	final String STARTS_WITH_HTTP = "http://";
 	
 	
 	public ShortUrlInfoBean generateShortUrl(OriginalUrlInfoBean originalUrlInfoBean){
 
 		//Generate the short URL
-		dummyShortUrl = AppUtils.generateShortUrlString();
-		
+		shortUrl = AppUtils.generateShortUrlString();
 		
 		//Create ShortUrlInfoBean from all the URL Info
-		ShortUrlInfoBean shortUrlInfoBean = new ShortUrlInfoBean(originalUrlInfoBean.getOriginalUrl(), dummyShortUrl, true);
+		ShortUrlInfoBean shortUrlInfoBean = new ShortUrlInfoBean(originalUrlInfoBean.getOriginalUrl(), shortUrl, true);
 		
 		// Save all URL info in the DB
 		int res = repo.saveShortUrl(shortUrlInfoBean);
 		
+		/* If -1 is returned while saving, it means an entry already exist in the DB for the short URL,
+		*  hence a new short URL will be generated
+		*/
 		if(res == -1) {
 			shortUrlInfoBean = generateShortUrl(originalUrlInfoBean);
 		}
@@ -42,13 +44,35 @@ public class UrlShortenerService {
 		return shortUrlInfoBean;
 	}
 	
+	
+	/**
+	 * Extracts the original URL from the short url
+	 * @param shortUrl
+	 * @return
+	 */
 	public String getOriginalUrlInfoFromShortUrl(String shortUrl) {
-		String originalUrl = "";
+		String originalUrl = null;
 		List<UrlInfoModel> urlInfoList = repo.getUrlInfoByShortUrl(shortUrl);
 		if(urlInfoList.size()>0) {
 			originalUrl = urlInfoList.get(0).getOriginalUrl();
 		}
-		return originalUrl;
+		
+		// Sanitize the Original URL to add http or https protocol at the start if not present
+		return sanitizeUrlString(originalUrl);
+	}
+	
+	
+	/**
+	 * Adds http or https protocol at the start of the URL string if it is not already present.
+	 * @param originalUrlStr
+	 * @return
+	 */
+	public String sanitizeUrlString(String originalUrlStr) {
+		if(!originalUrlStr.startsWith(STARTS_WITH_HTTPS) &&
+				!originalUrlStr.startsWith(STARTS_WITH_HTTP)) {
+			return StringUtils.prependIfMissingIgnoreCase(originalUrlStr, STARTS_WITH_HTTP);
+		}
+		return originalUrlStr;
 	}
 	
 }
