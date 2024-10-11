@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SimplePropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.saswat23.shorturl.entity.ShortUrlInfoBean;
+import com.saswat23.shorturl.dto.ShortUrlInfoDTO;
 import com.saswat23.shorturl.model.UrlInfoModel;
 
 @Repository
@@ -16,7 +16,7 @@ public class UrlShortenerRepo {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
-	public int saveShortUrl(ShortUrlInfoBean urlInfoBean) {
+	public int saveShortUrl(ShortUrlInfoDTO urlInfoBean) {
 		
 		//Persistence logic to check the existence of the generated ShortURl
 		// Then save the generated ShortUrl if it is not already present in the DB

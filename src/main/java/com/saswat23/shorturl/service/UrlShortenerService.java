@@ -6,8 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.saswat23.shorturl.entity.OriginalUrlInfoBean;
-import com.saswat23.shorturl.entity.ShortUrlInfoBean;
+import com.saswat23.shorturl.dto.OriginalUrlInfoDTO;
+import com.saswat23.shorturl.dto.ShortUrlInfoDTO;
 import com.saswat23.shorturl.model.UrlInfoModel;
 import com.saswat23.shorturl.repo.UrlShortenerRepo;
 import com.saswat23.shorturl.utils.AppUtils;
@@ -23,25 +23,25 @@ public class UrlShortenerService {
 	final String STARTS_WITH_HTTP = "http://";
 	
 	
-	public ShortUrlInfoBean generateShortUrl(OriginalUrlInfoBean originalUrlInfoBean){
+	public ShortUrlInfoDTO generateShortUrl(OriginalUrlInfoDTO originalUrlInfoDTO){
 
 		//Generate the short URL
 		shortUrl = AppUtils.generateShortUrlString();
 		
 		//Create ShortUrlInfoBean from all the URL Info
-		ShortUrlInfoBean shortUrlInfoBean = new ShortUrlInfoBean(originalUrlInfoBean.getOriginalUrl(), shortUrl, true);
+		ShortUrlInfoDTO shortUrlInfoDTO = new ShortUrlInfoDTO(originalUrlInfoDTO.getOriginalUrl(), shortUrl, true);
 		
 		// Save all URL info in the DB
-		int res = repo.saveShortUrl(shortUrlInfoBean);
+		int res = repo.saveShortUrl(shortUrlInfoDTO);
 		
 		/* If -1 is returned while saving, it means an entry already exist in the DB for the short URL,
 		*  hence a new short URL will be generated
 		*/
 		if(res == -1) {
-			shortUrlInfoBean = generateShortUrl(originalUrlInfoBean);
+			shortUrlInfoDTO = generateShortUrl(originalUrlInfoDTO);
 		}
 		
-		return shortUrlInfoBean;
+		return shortUrlInfoDTO;
 	}
 	
 	

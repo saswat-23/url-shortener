@@ -1,14 +1,14 @@
-package com.saswat23.shorturl.entity;
+package com.saswat23.shorturl.dto;
 
-public class ShortUrlInfoBean {
+public class ShortUrlInfoDTO {
 
 	private String originalUrl;
 	private String shortUrl;
 	private boolean isUrlActive;
 	
-	public ShortUrlInfoBean() {}
+	public ShortUrlInfoDTO() {}
 	
-	public ShortUrlInfoBean(String originalUrl, String shortUrl, boolean isUrlActive) {
+	public ShortUrlInfoDTO(String originalUrl, String shortUrl, boolean isUrlActive) {
 		this.originalUrl = originalUrl;
 		this.shortUrl = shortUrl;
 		this.isUrlActive = isUrlActive;

@@ -1,6 +1,6 @@
-package com.saswat23.shorturl.entity;
+package com.saswat23.shorturl.dto;
 
-public class OriginalUrlInfoBean {
+public class OriginalUrlInfoDTO {
 
 	private String originalUrl;
 	private Long urlExpiry;
