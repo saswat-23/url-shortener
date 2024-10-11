@@ -17,8 +17,8 @@ public class UserService {
 		
 	}
 	
-	public UserModel validateAndRegisterUser(UserRegistrationDTO userRegDTO) throws UserRegistrationException {
-		validateUserRegistrationData(userRegDTO);
+	public UserModel validateAndRegisterUser(UserRegistrationDTO userRegDTO) {
+		//validateUserRegistrationData(userRegDTO);
 		return new UserModel();
 	}
 	

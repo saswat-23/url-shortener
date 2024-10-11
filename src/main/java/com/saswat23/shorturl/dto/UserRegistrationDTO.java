@@ -1,11 +1,24 @@
 package com.saswat23.shorturl.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class UserRegistrationDTO {
 
+	@NotBlank(message = "Please provide First Name. It can't be empty.")
 	private String firstName;
+	
+	@NotNull(message = "Please provide Last Name. It can't be empty.")
 	private String lastName;
+	
+	@Email(message = "Please provide a valid Email-Id.")
 	private String emailId;
+	
+	@NotBlank(message = "Please provide an UserName. It can't be empty.")
 	private String username;
+	
+	@NotBlank(message = "Please provide a password. It can't be empty.")
 	private String password;
 	
 	public String getFirstName() {
