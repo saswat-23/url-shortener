@@ -26,12 +26,9 @@ public class UserControllerAdvice {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public Map<String, String> invalidArgumentExceptionHandler(MethodArgumentNotValidException ex) {
 		Map<String, String> exMap = new HashMap<>();
-		
 		ex.getBindingResult().getFieldErrors().forEach(err -> {
 			exMap.put(err.getField(), err.getDefaultMessage());
 		});
-		
-//		exMap.put("error", ex.getMessage());
 		return exMap;
 	}
 	

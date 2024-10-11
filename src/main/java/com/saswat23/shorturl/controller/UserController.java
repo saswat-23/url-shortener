@@ -12,8 +12,6 @@ import com.saswat23.shorturl.dto.UserRegistrationDTO;
 import com.saswat23.shorturl.exceptions.UserRegistrationException;
 import com.saswat23.shorturl.service.UserService;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping(path = "/user")
 public class UserController {
@@ -31,7 +29,7 @@ public class UserController {
 	
 	
 	@PostMapping({"/register"})
-	public ResponseEntity<?> userLogin(@ModelAttribute @Valid UserRegistrationDTO userRegister) {
+	public ResponseEntity<?> userLogin(@ModelAttribute UserRegistrationDTO userRegister) throws UserRegistrationException {
 		System.out.println("Registration Details: "+userRegister.toString());
 		
 		userService.validateAndRegisterUser(userRegister);
