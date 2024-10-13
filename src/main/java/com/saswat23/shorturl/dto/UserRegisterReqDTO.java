@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class UserRegistrationDTO {
+public class UserRegisterReqDTO {
 
 	@NotBlank(message = "Please provide First Name. It can't be empty.")
 	private String firstName;
@@ -55,7 +55,7 @@ public class UserRegistrationDTO {
 	
 	@Override
 	public String toString() {
-		return "UserRegistrationDTO [firstName=" + firstName + ", lastName=" + lastName + ", emailId=" + emailId
+		return "UserRegisterReqDTO [firstName=" + firstName + ", lastName=" + lastName + ", emailId=" + emailId
 				+ ", username=" + username + ", password=" + password + "]";
 	}
 	

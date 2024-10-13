@@ -1,14 +1,15 @@
 package com.saswat23.shorturl.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.saswat23.shorturl.dto.UserLoginDTO;
-import com.saswat23.shorturl.dto.UserRegistrationDTO;
+import com.saswat23.shorturl.dto.UserLoginReqDTO;
+import com.saswat23.shorturl.dto.UserRegisterReqDTO;
+import com.saswat23.shorturl.dto.UserRegisterRespDTO;
 import com.saswat23.shorturl.exceptions.UserRegistrationException;
 import com.saswat23.shorturl.service.UserService;
 
@@ -20,21 +21,18 @@ public class UserController {
 	UserService userService;
 	
 	@PostMapping({"/login","/"})
-	public String userLogin(@ModelAttribute UserLoginDTO userLogin) {
+	public String userLogin(UserLoginReqDTO userLoginReq) throws UserRegistrationException {
 		
-		System.out.println("UserLogin Details: "+userLogin.toString());
-		
+		System.out.println("UserLogin Details: "+userLoginReq.toString());
+		userService.validateUserLogin(userLoginReq);
 		return "userLogin...";
 	}
 	
 	
 	@PostMapping({"/register"})
-	public ResponseEntity<?> userLogin(@ModelAttribute UserRegistrationDTO userRegister) throws UserRegistrationException {
-		System.out.println("Registration Details: "+userRegister.toString());
-		
-		userService.validateAndRegisterUser(userRegister);
-		
-		return ResponseEntity.ok("User Registered successfully ...");
+	public ResponseEntity<UserRegisterRespDTO> userLogin(UserRegisterReqDTO userRegisterReq) throws UserRegistrationException {
+		System.out.println("Registration Details: "+userRegisterReq.toString());
+		return new ResponseEntity<>(userService.validateAndRegisterUser(userRegisterReq), HttpStatus.OK);
 	}
 	
 }

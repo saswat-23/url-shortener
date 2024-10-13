@@ -14,7 +14,6 @@ import com.saswat23.shorturl.service.UrlShortenerService;
 
 @RestController
 @CrossOrigin(origins = "*")
-//@RequestMapping
 public class UrlShortenerController {
 
 	@Autowired

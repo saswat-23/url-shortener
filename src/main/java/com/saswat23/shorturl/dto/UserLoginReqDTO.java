@@ -1,6 +1,6 @@
 package com.saswat23.shorturl.dto;
 
-public class UserLoginDTO {
+public class UserLoginReqDTO {
 
 	private String username;
 	private String password;
@@ -20,7 +20,7 @@ public class UserLoginDTO {
 	
 	@Override
 	public String toString() {
-		return "UserLoginDTO [username=" + username + ", password=" + password + "]";
+		return "UserLoginReqDTO [username=" + username + ", password=" + password + "]";
 	}
 	
 }
