@@ -5,6 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.saswat23.shorturl.dto.UserLoginReqDTO;
+import com.saswat23.shorturl.dto.UserLoginRespDTO;
 import com.saswat23.shorturl.dto.UserRegisterReqDTO;
 import com.saswat23.shorturl.dto.UserRegisterRespDTO;
 import com.saswat23.shorturl.exceptions.UserRegistrationException;
@@ -18,7 +19,7 @@ public class UserService {
 	@Autowired
 	UserRepo userRepo;
 	
-	public void validateUserLogin(UserLoginReqDTO userLoginReq) throws UserRegistrationException {
+	public UserLoginRespDTO validateUserLogin(UserLoginReqDTO userLoginReq) throws UserRegistrationException {
 		
 		// Validate Form Data for User Login
 		UserServiceHelper.validateUserLoginData(userLoginReq);
@@ -26,7 +27,13 @@ public class UserService {
 		UserModel user = new UserModel();
 		user.setUsername(userLoginReq.getUsername());
 		user.setPassword(userLoginReq.getPassword());
+		
+		UserLoginRespDTO userLoginResp = new UserLoginRespDTO();
+		userLoginResp.setUsername(user.getUsername());
+		userLoginResp.setAuthToken("SampleToken_pk3d9jafijf3");
 //		userRepo.ge
+		
+		return userLoginResp;
 	}
 	
 	public UserRegisterRespDTO validateAndRegisterUser(UserRegisterReqDTO userRegisterReq) throws UserRegistrationException {

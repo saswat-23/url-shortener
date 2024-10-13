@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.saswat23.shorturl.dto.UserLoginReqDTO;
+import com.saswat23.shorturl.dto.UserLoginRespDTO;
 import com.saswat23.shorturl.dto.UserRegisterReqDTO;
 import com.saswat23.shorturl.dto.UserRegisterRespDTO;
 import com.saswat23.shorturl.exceptions.UserRegistrationException;
@@ -21,11 +22,9 @@ public class UserController {
 	UserService userService;
 	
 	@PostMapping({"/login","/"})
-	public String userLogin(UserLoginReqDTO userLoginReq) throws UserRegistrationException {
-		
+	public ResponseEntity<UserLoginRespDTO> userLogin(UserLoginReqDTO userLoginReq) throws UserRegistrationException {
 		System.out.println("UserLogin Details: "+userLoginReq.toString());
-		userService.validateUserLogin(userLoginReq);
-		return "userLogin...";
+		return new ResponseEntity<>(userService.validateUserLogin(userLoginReq), HttpStatus.OK);
 	}
 	
 	
