@@ -20,11 +20,6 @@ public class UrlShortenerController {
 	@Autowired
 	UrlShortenerService service;
 	
-	@GetMapping({"/","/home"})
-	public String home() {
-		return "This is homepage...";
-	}
-	
 	
 	/**
 	 * API to Generate short URL from the provided original URL

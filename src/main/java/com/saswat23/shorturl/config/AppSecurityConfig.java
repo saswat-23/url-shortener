@@ -23,7 +23,7 @@ public class AppSecurityConfig {
 		// Authorize all the Requests
 		// Skip the registration endpoint
 		httpSecurity.authorizeHttpRequests(request -> {
-			request.requestMatchers("/user/register","/shorten/**","/redirect/**").permitAll()
+			request.requestMatchers("/","/home","/user/register","/shorten/**","/redirect/**").permitAll()
 					.anyRequest().authenticated();
 		});
 
