@@ -14,12 +14,13 @@ import com.saswat23.shorturl.service.UrlShortenerService;
 
 @RestController
 @CrossOrigin(origins = "*")
+@RequestMapping(path = "/shorten")
 public class UrlShortenerController {
 
 	@Autowired
 	UrlShortenerService service;
 	
-	@GetMapping("/")
+	@GetMapping({"/","/home"})
 	public String home() {
 		return "This is homepage...";
 	}

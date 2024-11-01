@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -29,6 +30,14 @@ public class UserControllerAdvice {
 		ex.getBindingResult().getFieldErrors().forEach(err -> {
 			exMap.put(err.getField(), err.getDefaultMessage());
 		});
+		return exMap;
+	}
+	
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(UsernameNotFoundException.class)
+	public Map<String,String> usernameNotFoundExceptionHandler(UsernameNotFoundException ex){
+		Map<String, String> exMap = new HashMap<>();
+		exMap.put("error", ex.getMessage());
 		return exMap;
 	}
 	
