@@ -1,14 +1,15 @@
 package com.saswat23.shorturl.controller;
 
-import java.net.URI;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.saswat23.shorturl.dto.UserLoginReqDTO;
 import com.saswat23.shorturl.dto.UserRegisterReqDTO;
@@ -23,7 +24,9 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	final String DEFAULT_REDIRECT_URL = "/surl/";
+	@Value("${server.servlet.context-path}")
+	private String contextPath;
+	
 	
 //	@PostMapping({"/login","/"})
 //	public ResponseEntity<UserLoginRespDTO> userLogin(UserLoginReqDTO userLoginReq) throws UserRegistrationException {
@@ -31,28 +34,24 @@ public class UserController {
 //		return new ResponseEntity<>(userService.validateUserLogin(userLoginReq), HttpStatus.OK);
 //	}
 	
+	@GetMapping({"/dashboard"})
+	public String userDashboard() {
+		return "This is User Dashboard API...";
+	}
+	
 	@GetMapping({"/login","/"})
-	public ResponseEntity<?> userLogin(UserLoginReqDTO userLoginReq) {
-//		HttpHeaders headers= new HttpHeaders();
-		System.out.println("Redirect URL: "+userLoginReq);
-		String redirectUrl = userLoginReq.getRedirectUrl();
-//		URI uri = URI.create(StringUtils.isEmpty(redirectUrl)?DEFAULT_REDIRECT_URL:redirectUrl);
-//		headers.setLocation(uri);
-		
-//		return ResponseEntity.created(uri)
-//							.allow(HttpMethod.GET)
-//							.build();
-				//new ResponseEntity<>(headers,HttpStatus.PERMANENT_REDIRECT);
-		
-		return ResponseEntity.status(HttpStatus.SEE_OTHER)  // HTTP 303 status code
-                .location(URI.create("/shorten/home"))  // Specify the redirect location (no controller-level path)
-                .build();
+	public RedirectView userLogin(UserLoginReqDTO userLoginReq) {
+		System.out.println("DTO Redirect URL: "+userLoginReq);
+		String redirectUrl = contextPath+"/user"+"/dashboard";
+
+		System.out.println("Generate Redirection URL: "+redirectUrl);
+		return new RedirectView(redirectUrl);
 		
 	}
 	
 	
 	@PostMapping({"/register"})
-	public ResponseEntity<UserRegisterRespDTO> userLogin(UserRegisterReqDTO userRegisterReq) throws UserRegistrationException {
+	public ResponseEntity<UserRegisterRespDTO> registerNewUser(@RequestBody UserRegisterReqDTO userRegisterReq) throws UserRegistrationException {
 		System.out.println("Registration Details: "+userRegisterReq.toString());
 		return new ResponseEntity<>(userService.validateAndRegisterUser(userRegisterReq), HttpStatus.OK);
 	}

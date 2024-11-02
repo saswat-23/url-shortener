@@ -16,9 +16,9 @@ import com.saswat23.shorturl.security.CustomUserDetailsService;
 @Configuration
 @EnableWebSecurity
 public class AppSecurityConfig {
-	
-	@Bean
-	public SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity) throws Exception {
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		
 		// Authorize all the Requests
 		// Skip the registration endpoint
